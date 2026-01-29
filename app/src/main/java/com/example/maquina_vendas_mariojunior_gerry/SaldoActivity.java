@@ -1,8 +1,6 @@
 package com.example.maquina_vendas_mariojunior_gerry;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,24 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class signup extends AppCompatActivity {
-
-    Button signup_btn;
+public class SaldoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_signup);
-
-        signup_btn = findViewById(R.id.signup_btn);
-
-        signup_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(signup.this, HomeActivity.class);
-            startActivity(intent);
-        });
-
+        setContentView(R.layout.activity_saldo);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Maquina_Vendas_mariojunior_gerry">
         <activity
+            android:name=".SaldoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".signup"
             android:exported="false" />
         <activity
