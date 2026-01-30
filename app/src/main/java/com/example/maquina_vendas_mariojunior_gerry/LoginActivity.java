@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login1);
+        setContentView(R.layout.activity_login);
 
         login_btn = findViewById(R.id.login_btn);
         signup_btn = findViewById(R.id.signup_btn_main);
