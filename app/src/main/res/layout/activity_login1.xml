@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_maqvendas_resized"
+    android:background="@drawable/bg_maqvendas2"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MaquinaVendas"
+        android:text="@string/title"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
@@ -57,8 +57,8 @@
             android:id="@+id/editTextemailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Insira o Email"
-            android:background="@drawable/rounded_corner"
+            android:hint="@string/email"
+            android:background="@drawable/bg_email_password"
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:layout_marginTop="8dp" />
@@ -67,8 +67,8 @@
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:background="@drawable/rounded_corner"
+            android:hint="@string/password"
+            android:background="@drawable/bg_email_password"
             android:inputType="textPassword"
             android:padding="10dp"
             android:layout_marginTop="12dp" />
@@ -78,20 +78,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Entrar"
+            android:text="@string/entrar"
             android:padding="12dp"
-            android:backgroundTint="#80C7FF"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/signup_btn_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Criar conta"
-            android:padding="12dp"
-            android:backgroundTint="#A8E6A3"
-            android:textColor="@android:color/black" />
+            android:backgroundTint="@color/primary_blue"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textView3"
@@ -99,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:text="Nâo tens conta?Registra-te"
+            android:text="@string/registar"
             android:textColor="@color/black"/>
 
     </LinearLayout>
