@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="txtProduto" type="id" />
+    <item name="btnComprar" type="id" />
+    <item name="listProdutos" type="id" />
+    <item name="btnSaldo" type="id" />
+    <item name="login_btn" type="id" />
+    <item name="signup_btn_main" type="id" />
+    <item name="textSaldo" type="id" />
+    <item name="recyclerProdutos" type="id" />
+    <item name="saldoTextView" type="id" />
+    <item name="produtosListView" type="id" />
+    <item name="carregarSaldoButton" type="id" />
+    <item name="saldoAtualTextView" type="id" />
+    <item name="valorEditText" type="id" />
+    <item name="carregarButton" type="id" />
+</resources>
