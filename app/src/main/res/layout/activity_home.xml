@@ -1,26 +1,35 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_maqvendas_resized"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/bg_maqvendas_resized">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/saldoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Saldo: 0.0 €"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/carregarSaldoButton"
-        android:text="Carregar Saldo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
     <ListView
         android:id="@+id/produtosListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Botões abaixo da ListView -->
+    <Button
+        android:id="@+id/comprarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comprar" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="carregar saldo " />
+
 </LinearLayout>

@@ -1,79 +1,118 @@
 package com.example.maquina_vendas_mariojunior_gerry;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.maquina_vendas_mariojunior_gerry.models.Bebida;
-import com.example.maquina_vendas_mariojunior_gerry.models.Doce;
-import com.example.maquina_vendas_mariojunior_gerry.models.MaquinaVendas;
-import com.example.maquina_vendas_mariojunior_gerry.models.Produto;
-import com.example.maquina_vendas_mariojunior_gerry.models.Utilizador;
-import com.example.maquina_vendas_mariojunior_gerry.models.Snack;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.maquina_vendas_mariojunior_gerry.R;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Utilizador usuario;
-    private MaquinaVendas maquina;
-    private TextView txtSaldo;
-    private ListView listProdutos;
+    private TextView saldoTextView;
+    private ListView produtosListView;
+    private Button comprarButton;
+    private Button carregarSaldoButton; // botão que abre MainActivity
+
+    private double saldo = 00.0;
+    private int produtoSelecionado = -1;
+
+    private final String[] produtos = {
+            "Água - 1.00 €",
+            "Refrigerante - 1.50 €",
+            "Snack - 2.00 €"
+    };
+
+    private double[] precos = {1.0, 1.5, 2.0};
+
+    private static final int REQUEST_CARREGAR_SALDO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        txtSaldo = findViewById(R.id.saldoTextView);
-        listProdutos = findViewById(R.id.produtosListView);
-        Button btnSaldo = findViewById(R.id.carregarSaldoButton);
-
-        // Criar usuário e máquina
-        usuario = new Utilizador("Alice", 10.0);
-        maquina = new MaquinaVendas();
-        maquina.adicionarProduto(new Bebida("Refrigerante Cósmico", 2.5, 5, 0));
-        maquina.adicionarProduto(new Snack("Batatas Explosivas", 1.5, 3, 0));
-        maquina.adicionarProduto(new Doce("Chocolito Turbo", 1.0, 10, 0));
+        saldoTextView = findViewById(R.id.saldoTextView);
+        produtosListView = findViewById(R.id.produtosListView);
+        comprarButton = findViewById(R.id.comprarButton);
+        carregarSaldoButton = findViewById(R.id.button2); // seu botão "Carregar Saldo"
 
         atualizarSaldo();
 
-        String[] nomes = new String[maquina.getProdutos().size()];
-        for (int i = 0; i < maquina.getProdutos().size(); i++) {
-            Produto p = maquina.getProdutos().get(i);
-            nomes[i] = p.getNome() + " - " + p.getPreco() + "€ (" + p.getQuantidade() + ")";
-        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_single_choice,
+                produtos
+        );
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nomes);
-        listProdutos.setAdapter(adapter);
+        produtosListView.setAdapter(adapter);
+        produtosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        listProdutos.setOnItemClickListener((parent, view, position, id) -> {
-            Produto produto = maquina.getProdutos().get(position);
-            if (usuario.comprarProduto(produto)) {
-                Toast.makeText(this, "Produto comprado com sucesso!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Saldo insuficiente ou produto indisponível", Toast.LENGTH_SHORT).show();
+        produtosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                produtoSelecionado = position;
             }
-            atualizarSaldo();
-            // atualizar nomes
-            for (int i = 0; i < maquina.getProdutos().size(); i++) {
-                Produto p = maquina.getProdutos().get(i);
-                nomes[i] = p.getNome() + " - " + p.getPreco() + "€ (" + p.getQuantidade() + ")";
-            }
-            adapter.notifyDataSetChanged();
         });
 
-        btnSaldo.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, CarregarSaldoActivity.class);
-            intent.putExtra("usuario", usuario);
-            startActivity(intent);
+        comprarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (produtoSelecionado == -1) {
+                    Toast.makeText(HomeActivity.this, "Selecione um produto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                double preco = precos[produtoSelecionado];
+
+                if (saldo >= preco) {
+                    saldo -= preco;
+                    atualizarSaldo();
+                    Toast.makeText(HomeActivity.this, "Compra realizada com sucesso!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(HomeActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        carregarSaldoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Passando saldo atual para MainActivity via Bundle
+                Intent intent = new Intent(HomeActivity.this, saldoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("saldo", saldo);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, REQUEST_CARREGAR_SALDO);
+            }
         });
     }
 
+    // Recebendo saldo atualizado de MainActivity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CARREGAR_SALDO && resultCode == RESULT_OK && data != null) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                saldo = bundle.getDouble("saldoAtualizado", saldo);
+                atualizarSaldo();
+            }
+        }
+    }
+
     private void atualizarSaldo() {
-        txtSaldo.setText("Saldo: " + usuario.getSaldo() + " €");
+        saldoTextView.setText(String.format("Saldo: %.2f €", saldo));
     }
 }
