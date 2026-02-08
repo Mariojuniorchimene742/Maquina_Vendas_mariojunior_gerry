@@ -14,6 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.maquina_vendas_mariojunior_gerry.R;
+import com.example.maquina_vendas_mariojunior_gerry.adapters.ProdutoAdapter;
+import com.example.maquina_vendas_mariojunior_gerry.models.Bebida;
+import com.example.maquina_vendas_mariojunior_gerry.models.Doce;
+import com.example.maquina_vendas_mariojunior_gerry.models.Produto;
+import com.example.maquina_vendas_mariojunior_gerry.models.Snack;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -25,12 +30,8 @@ public class HomeActivity extends AppCompatActivity {
     private double saldo = 00.0;
     private int produtoSelecionado = -1;
 
-    private final String[] produtos = {
-            "Água - 1.00 €",
-            "Refrigerante - 1.50 €",
-            "Snack - 2.00 €"
-    };
-
+    // Lista de produtos usando Produto e subclasses
+    private java.util.ArrayList<Produto> produtos = new java.util.ArrayList<>();
     private double[] precos = {1.0, 1.5, 2.0};
 
     private static final int REQUEST_CARREGAR_SALDO = 1;
@@ -47,12 +48,14 @@ public class HomeActivity extends AppCompatActivity {
 
         atualizarSaldo();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_single_choice,
-                produtos
-        );
+        // Preencher lista de produtos
+        produtos.add(new Bebida("Água", 1.00, 10, "logo_maqvendas", true));
+        produtos.add(new Bebida("Refrigerante", 1.50, 8, "coca_cola", false));
+        produtos.add(new Snack("Batatas", 2.00, 5, "ic_launcher_background", true));
+        produtos.add(new Doce("Chocolate", 2.50, 7, "logo_maqvendas", true));
 
+        // Adapter customizado para mostrar imagem e dados
+        ProdutoAdapter adapter = new ProdutoAdapter(this, produtos);
         produtosListView.setAdapter(adapter);
         produtosListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
@@ -71,13 +74,16 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(HomeActivity.this, "Selecione um produto", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                double preco = precos[produtoSelecionado];
-
-                if (saldo >= preco) {
+                Produto produto = produtos.get(produtoSelecionado);
+                double preco = produto.getPreco();
+                if (saldo >= preco && produto.getQuantidade() > 0) {
                     saldo -= preco;
+                    produto.comprar();
                     atualizarSaldo();
                     Toast.makeText(HomeActivity.this, "Compra realizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                } else if (produto.getQuantidade() == 0) {
+                    Toast.makeText(HomeActivity.this, "Produto esgotado", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(HomeActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
                 }
