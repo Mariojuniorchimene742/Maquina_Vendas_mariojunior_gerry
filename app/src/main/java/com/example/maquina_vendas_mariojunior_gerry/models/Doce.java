@@ -2,20 +2,17 @@ package com.example.maquina_vendas_mariojunior_gerry.models;
 
 public class Doce extends Produto {
 
-    private boolean temChocolate; // atributo extra específico de doces
+    private boolean acucar;
 
-    public Doce(String nome, double preco, int quantidade, String caminhoImagem, boolean temChocolate) {
+    public Doce(String nome, double preco, int quantidade, String caminhoImagem, boolean sabor) {
         super(nome, preco, quantidade, caminhoImagem);
-        this.temChocolate = temChocolate;
-    }
-
-    public boolean temChocolate() {
-        return temChocolate;
+        this.acucar = sabor;
     }
 
     @Override
-    public String toString() {
-        return super.toString() + (temChocolate ? " [Com Chocolate]" : " [Sem Chocolate]");
+    public String toString()
+    {
+        return super.toString() +  "| Tem:nao| sim:" + acucar;
     }
 }
 

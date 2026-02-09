@@ -17,6 +17,7 @@ public class saldoActivity extends AppCompatActivity {
     private TextView saldoAtualTextView;
     private EditText valorEditText;
     private Button carregarButton;
+    private Button voltarHomeButton;
 
     private double saldoAtual = 0.0; // saldo recebido da MainActivity
 
@@ -28,6 +29,7 @@ public class saldoActivity extends AppCompatActivity {
         saldoAtualTextView = findViewById(R.id.saldoAtualTextView);
         valorEditText = findViewById(R.id.valorEditText);
         carregarButton = findViewById(R.id.carregarButton);
+        voltarHomeButton = findViewById(R.id.voltarHomeButton);
 
         // RECEBENDO saldo via Bundle
         Bundle bundle = getIntent().getExtras();
@@ -62,6 +64,15 @@ public class saldoActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("saldoAtualizado", saldoAtual);
                 setResult(RESULT_OK, resultIntent);
+            }
+        });
+        voltarHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("saldoAtualizado", saldoAtual);
+                setResult(RESULT_OK, resultIntent);
+                finish();
             }
         });
     }

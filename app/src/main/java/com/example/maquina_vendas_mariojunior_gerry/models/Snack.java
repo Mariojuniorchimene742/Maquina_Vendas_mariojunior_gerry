@@ -11,7 +11,9 @@ public class Snack extends Produto {
         this.salgada = salgada;
     }
 
-    public boolean isSalgada() {
+    public boolean isSalgada()
+
+    {
         return salgada;
     }
 

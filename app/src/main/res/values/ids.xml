@@ -14,4 +14,10 @@
     <item name="saldoAtualTextView" type="id" />
     <item name="valorEditText" type="id" />
     <item name="carregarButton" type="id" />
+    <item name="comprarButton" type="id" />
+    <item name="button2" type="id" />
+    <item name="txtNomeProduto" type="id" />
+    <item name="txtPrecoProduto" type="id" />
+    <item name="txtQtdProduto" type="id" />
+    <item name="imgProduto" type="id" />
 </resources>
