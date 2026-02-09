@@ -1,9 +1,22 @@
 package com.example.maquina_vendas_mariojunior_gerry.models;
 
-import com.example.maquina_vendas_mariojunior_gerry.models.Produto;
+
 
 public class Snack extends Produto {
-    public Snack(String nome, double preco, int quantidade, int imagem) {
-        super(nome, preco, quantidade, imagem);
+
+    private boolean salgada; // extra, específico de snacks
+
+    public Snack(String nome, double preco, int quantidade, String caminhoImagem, boolean salgada) {
+        super(nome, preco, quantidade, caminhoImagem);
+        this.salgada = salgada;
+    }
+
+    public boolean isSalgada() {
+        return salgada;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + (salgada ? " [Salgada]" : " [Doce]");
     }
 }

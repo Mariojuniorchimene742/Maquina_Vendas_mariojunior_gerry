@@ -12,13 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Maquina_Vendas_mariojunior_gerry">
         <activity
+            android:name=".saldoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".carregarsaldoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
             android:name=".CarregarSaldoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

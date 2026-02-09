@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class LoginActivity extends AppCompatActivity {
     Button login_btn;
-    Button signup_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +22,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         login_btn = findViewById(R.id.login_btn);
-        signup_btn = findViewById(R.id.signup_btn_main);
+
 
         login_btn.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
         });
 
-        signup_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-        });
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
