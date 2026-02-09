@@ -7,7 +7,7 @@
     <string name="registar">Nâo tens conta?Registra-te</string>
     <string name="nome_utilizador">Nome do Utilizador</string>
     <string name="signup">SignUp</string>
-    <string name="ja_tens">Já tens conta? Faz login</string>
+    <string name="ja_tens">Já tens conta? Iniciar sessão</string>
     <string name="dataNascimento">Data de nascimento</string>
 
 </resources>
