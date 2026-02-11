@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    >
+    android:background="@drawable/bg_maqvendas_resized" >
 
-    <!-- android:background="@drawable/bg_maqvendas2" -->
+
 
     <ImageView
         android:id="@+id/imageViewLogo"

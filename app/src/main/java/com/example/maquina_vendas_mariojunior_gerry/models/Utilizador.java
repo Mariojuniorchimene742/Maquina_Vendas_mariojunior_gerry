@@ -41,14 +41,16 @@ public class Utilizador
 
     public boolean descontarSaldo(double valor)
     {
-        if(valor > 0 && valor <= this.saldo)
         {
+            if(valor > 0 && valor <= this.saldo)
+            {
 
-            this.saldo = this.saldo - valor;
-            return true;
+                this.saldo = this.saldo - valor;
+                return true;
+            }
+
+            return false;
         }
-
-        return false;
     }
 
     @Override
@@ -56,5 +58,12 @@ public class Utilizador
     {
         return "Utilizador: " + nome + "\nSaldo: " + saldo;
     }
+
+
+    public void setSaldo(double saldo)
+    {
+        this.saldo = saldo;
+    }
 }
+
 

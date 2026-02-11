@@ -26,7 +26,7 @@
 
         <!-- SALDO -->
         <activity
-            android:name=".saldoActivity"
+            android:name=".SaldoActivity"
             android:exported="false" />
 
 

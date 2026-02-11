@@ -21,13 +21,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ImageView imgProduto;
-    TextView txtNome, txtPreco, txtQuantidade;
-    Button btnProximo, btnAnterior, btnComprar;
+    TextView txtNome, txtPreco, txtQuantidade, txtSaldo;
+    Button btnProximo, btnAnterior, btnComprar, btnCarregarSaldo;
 
     ArrayList<Produto> produtos;
     Utilizador utilizador;
 
-    int indiceAtual = 0;
+    int index = 0;
     private static final int REQUEST_SALDO = 1;
 
     @Override
@@ -36,22 +36,21 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        // Criar utilizador
-        utilizador = new Utilizador("Cliente");
 
-        // Views
+        utilizador = new Utilizador("Mario");
+
         imgProduto = findViewById(R.id.imgProduto);
         txtNome = findViewById(R.id.txtNome);
         txtPreco = findViewById(R.id.txtPreco);
         txtQuantidade = findViewById(R.id.txtQuantidade);
+        txtSaldo = findViewById(R.id.txtSaldo);
+
         btnAnterior = findViewById(R.id.btnAnterior);
         btnProximo = findViewById(R.id.btnProximo);
         btnComprar = findViewById(R.id.btnComprar);
+        btnCarregarSaldo = findViewById(R.id.btnCarregarSaldo);
 
-        // Produtos
         produtos = new ArrayList<>();
         produtos.add(new Bebida("Coca Cola", 1.50, 2, "cocacola_drink", true));
         produtos.add(new Bebida("Pepsi", 2.50, 2, "pepsi_drink", true));
@@ -60,22 +59,27 @@ public class MainActivity extends AppCompatActivity {
         produtos.add(new Snack("Lays", 2.13, 2, "lays_snake", true));
 
         mostrarProduto();
+        atualizarSaldo();
 
-        btnProximo.setOnClickListener(v -> {
-            indiceAtual = (indiceAtual + 1) % produtos.size();
-            mostrarProduto();
-        });
+
+
 
         btnAnterior.setOnClickListener(v -> {
-            indiceAtual = (indiceAtual - 1 + produtos.size()) % produtos.size();
+            index = (index - 1 + produtos.size()) % produtos.size();
             mostrarProduto();
         });
 
         btnComprar.setOnClickListener(v -> comprarProduto());
+
+        btnCarregarSaldo.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SaldoActivity.class);
+            intent.putExtra("saldo", utilizador.getSaldo());
+            startActivityForResult(intent, REQUEST_SALDO);
+        });
     }
 
     private void mostrarProduto() {
-        Produto p = produtos.get(indiceAtual);
+        Produto p = produtos.get(index);
 
         int imageId = getResources().getIdentifier(
                 p.getCaminhoImagem(),
@@ -89,15 +93,10 @@ public class MainActivity extends AppCompatActivity {
         txtQuantidade.setText("Stock: " + p.getQuantidade());
     }
 
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        Intent intent = new Intent(this, saldoActivity.class);
-        intent.putExtra("saldo", utilizador.getSaldo());
-        startActivityForResult(intent, REQUEST_SALDO);
-        return true;
+    private void atualizarSaldo() {
+        txtSaldo.setText(
+                String.format("Saldo: %.2f €", utilizador.getSaldo())
+        );
     }
 
     @Override
@@ -105,13 +104,19 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_SALDO && resultCode == RESULT_OK && data != null) {
-            double saldoAtualizado = data.getDoubleExtra("saldoAtualizado", utilizador.getSaldo());
-            utilizador.carregarSaldo(saldoAtualizado - utilizador.getSaldo());
+            double saldoAtualizado = data.getDoubleExtra("saldoAtualizado", 0.0);
+            utilizador.setSaldo(saldoAtualizado);
+
+            atualizarSaldo();
+
+            Toast.makeText(this,
+                    "Saldo atualizado: " + saldoAtualizado + " €",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     private void comprarProduto() {
-        Produto p = produtos.get(indiceAtual);
+        Produto p = produtos.get(index);
 
         if (p.getQuantidade() == 0) {
             Toast.makeText(this, "Produto esgotado.", Toast.LENGTH_SHORT).show();
@@ -125,8 +130,12 @@ public class MainActivity extends AppCompatActivity {
 
         p.comprar();
         utilizador.descontarSaldo(p.getPreco());
+        atualizarSaldo();
 
-        Toast.makeText(this, "Produto comprado com sucesso!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,
+                "Produto comprado com sucesso!",
+                Toast.LENGTH_SHORT).show();
+
         mostrarProduto();
     }
 }

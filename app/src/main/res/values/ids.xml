@@ -20,4 +20,5 @@
     <item name="txtPrecoProduto" type="id" />
     <item name="txtQtdProduto" type="id" />
     <item name="imgProduto" type="id" />
+    <item name="btnProximo" type="id" />
 </resources>
