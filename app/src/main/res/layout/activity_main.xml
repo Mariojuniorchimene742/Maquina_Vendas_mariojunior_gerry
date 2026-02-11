@@ -75,7 +75,7 @@
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAnterior"
+                    android:id="@+id/buttonAnterior"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:icon="@drawable/outline_arrow_left_alt_24"
@@ -83,7 +83,7 @@
                     app:iconPadding="8dp"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnComprar"
+                    android:id="@+id/buttonComprar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Comprar"
@@ -93,7 +93,7 @@
                     android:backgroundTint="@android:color/holo_green_dark"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnProximo"
+                    android:id="@+id/buttonProximo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:icon="@drawable/outline_arrow_forward_24"
@@ -104,7 +104,7 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCarregarSaldo"
+                android:id="@+id/buttonCarregarSaldo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Carregar o seu Saldo"

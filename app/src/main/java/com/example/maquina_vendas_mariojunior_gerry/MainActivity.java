@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView imgProduto;
     TextView txtNome, txtPreco, txtQuantidade, txtSaldo;
-    Button btnProximo, btnAnterior, btnComprar, btnCarregarSaldo;
+    Button buttonProximo, buttonAnterior, buttonComprar, buttonCarregarSaldo;
 
     ArrayList<Produto> produtos;
     Utilizador utilizador;
 
-    int index = 0;
+    int posicaoAtual = 0;
     private static final int REQUEST_SALDO = 1;
 
     @Override
@@ -37,61 +37,72 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-        utilizador = new Utilizador("Mario");
-
         imgProduto = findViewById(R.id.imgProduto);
         txtNome = findViewById(R.id.txtNome);
         txtPreco = findViewById(R.id.txtPreco);
         txtQuantidade = findViewById(R.id.txtQuantidade);
         txtSaldo = findViewById(R.id.txtSaldo);
 
-        btnAnterior = findViewById(R.id.btnAnterior);
-        btnProximo = findViewById(R.id.btnProximo);
-        btnComprar = findViewById(R.id.btnComprar);
-        btnCarregarSaldo = findViewById(R.id.btnCarregarSaldo);
+        buttonAnterior = findViewById(R.id.buttonAnterior);
+        buttonProximo = findViewById(R.id.buttonProximo);
+        buttonComprar = findViewById(R.id.buttonComprar);
+        buttonCarregarSaldo = findViewById(R.id.buttonCarregarSaldo);
+
+
+
+        utilizador = new Utilizador("Mario");
 
         produtos = new ArrayList<>();
-        produtos.add(new Bebida("Coca Cola", 1.50, 2, "cocacola_drink", true));
-        produtos.add(new Bebida("Pepsi", 2.50, 2, "pepsi_drink", true));
-        produtos.add(new Bebida("Água", 0.70, 2, "agua_drink", false));
-        produtos.add(new Snack("Chocolate", 5.00, 2, "chocolate_milk", false));
-        produtos.add(new Snack("Lays", 2.13, 2, "lays_snake", true));
+        produtos.add(new Bebida("Sumol", 6.00, 10, "sumol_removebg_preview", true));
+        produtos.add(new Bebida("Gurana", 6.32, 10, "gurana_removebg_preview", true));
+        produtos.add(new Bebida("Água", 0.10, 10, "agua_drink", false));
+        produtos.add(new Snack("Chocolate", 3.54, 10, "chocolate_milk", false));
+        produtos.add(new Snack("Ruffles", 0.99, 10, "batata_removebg_preview", true));
 
-        mostrarProduto();
+        listarProduto();
         atualizarSaldo();
+        
 
-
-
-
-        btnAnterior.setOnClickListener(v -> {
-            index = (index - 1 + produtos.size()) % produtos.size();
-            mostrarProduto();
+        buttonAnterior.setOnClickListener(v -> {
+            posicaoAtual = (posicaoAtual - 1 + produtos.size()) % produtos.size();
+            listarProduto();
         });
 
-        btnComprar.setOnClickListener(v -> comprarProduto());
+        buttonProximo.setOnClickListener(v -> {
+            posicaoAtual = (posicaoAtual + 1 + produtos.size()) % produtos.size();
+            listarProduto();
+        });
 
-        btnCarregarSaldo.setOnClickListener(v -> {
+        buttonComprar.setOnClickListener(v -> comprarProduto());
+
+        buttonCarregarSaldo.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SaldoActivity.class);
             intent.putExtra("saldo", utilizador.getSaldo());
             startActivityForResult(intent, REQUEST_SALDO);
         });
     }
 
-    private void mostrarProduto() {
-        Produto p = produtos.get(index);
+    private void listarProduto() {
 
-        int imageId = getResources().getIdentifier(
-                p.getCaminhoImagem(),
+        Produto produtoAtual = produtos.get(posicaoAtual);
+
+        String nomeImagem = produtoAtual.getCaminhoImagem();
+
+        int idImagem = getResources().getIdentifier(
+                nomeImagem,
                 "drawable",
-                getPackageName()
+                this.getPackageName()
         );
 
-        imgProduto.setImageResource(imageId);
-        txtNome.setText(p.getNome());
-        txtPreco.setText(String.format("%.2f €", p.getPreco()));
-        txtQuantidade.setText("Stock: " + p.getQuantidade());
+        if (idImagem != 0) {
+            imgProduto.setImageResource(idImagem);
+        }
+
+        txtNome.setText(produtoAtual.getNome());
+        txtPreco.setText(String.format("%.2f €", produtoAtual.getPreco()));
+        txtQuantidade.setText("Stock disponível: " + produtoAtual.getQuantidade());
     }
+
 
     private void atualizarSaldo() {
         txtSaldo.setText(
@@ -116,26 +127,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void comprarProduto() {
-        Produto p = produtos.get(index);
+        Produto p1 = produtos.get(posicaoAtual);
 
-        if (p.getQuantidade() == 0) {
-            Toast.makeText(this, "Produto esgotado.", Toast.LENGTH_SHORT).show();
+        if (p1.getQuantidade() == 0) {
+            Toast.makeText(this, "Produto sem stock.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (utilizador.getSaldo() < p.getPreco()) {
-            Toast.makeText(this, "Saldo insuficiente.", Toast.LENGTH_SHORT).show();
+        if (utilizador.getSaldo() < p1.getPreco()) {
+            Toast.makeText(this, "Saldo invalido.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        p.comprar();
-        utilizador.descontarSaldo(p.getPreco());
+        p1.comprar();
+        utilizador.descontarSaldo(p1.getPreco());
         atualizarSaldo();
 
         Toast.makeText(this,
-                "Produto comprado com sucesso!",
+                "Ja foi comprado",
                 Toast.LENGTH_SHORT).show();
 
-        mostrarProduto();
+        listarProduto();
     }
 }

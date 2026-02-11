@@ -39,7 +39,7 @@ public class SaldoActivity extends AppCompatActivity {
             String valorTexto = valorEditText.getText().toString();
 
             if (valorTexto.isEmpty()) {
-                Toast.makeText(this, "Digite um valor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Escreva o valor", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -50,7 +50,7 @@ public class SaldoActivity extends AppCompatActivity {
                 return;
             }
 
-            saldoAtual += valor;
+            saldoAtual = saldoAtual + valor;
             atualizarSaldo();
 
             Intent resultIntent = new Intent();
@@ -60,7 +60,7 @@ public class SaldoActivity extends AppCompatActivity {
             finish();
         });
 
-        // ALTERADO: agora só volta para a activity anterior
+
         voltarButton.setOnClickListener(v -> {
             finish();
         });
