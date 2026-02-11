@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         produtos = new ArrayList<>();
         produtos.add(new Bebida("Sumol", 6.00, 10, "sumol_removebg_preview", true));
         produtos.add(new Bebida("Gurana", 6.32, 10, "gurana_removebg_preview", true));
-        produtos.add(new Bebida("Água", 0.10, 10, "agua_drink", false));
-        produtos.add(new Snack("Chocolate", 3.54, 10, "chocolate_milk", false));
+        produtos.add(new Bebida("Água", 0.10, 10, "agua_removebg_preview", false));
+        produtos.add(new Snack("Chocolate", 3.54, 10, "chocolate_removebg_preview", false));
         produtos.add(new Snack("Ruffles", 0.99, 10, "batata_removebg_preview", true));
 
         listarProduto();
